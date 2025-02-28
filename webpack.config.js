@@ -14,7 +14,8 @@ module.exports = (env) => {
   // console.log(env.production);
   const isDevelopment = Boolean(env.development)//đây là cách truyền biến --env
   return {
-    mode: isDevelopment ? 'development' : 'production',
+    // mode: isDevelopment ? 'development' : 'production',
+    mode:'development',
     //production thì file render ra trong dist nhìn rất gọn, ngắn hơn         
     //development thì file render ra trong dist nhìn code dài, khó nhìn
     entry: {//entry là nơi các file đầu vào tổng
@@ -47,7 +48,16 @@ module.exports = (env) => {
           use: {
             loader: 'babel-loader',
             options: {
-              presets: ['@babel/preset-env']
+              presets: [
+                [
+                  '@babel/preset-env',
+                  {
+                    debug: true, // Hiển thị debug lên terminal để dễ debug
+                    useBuiltIns: 'entry', // Dùng cái này thì đơn giản nhất, không cần import core-js vào code
+                    corejs: '3.23.4' // nên quy định verson core-js để babel-preset-env nó hoạt động tối ưu
+                  }
+                ]
+              ]
             }
           }
         }
